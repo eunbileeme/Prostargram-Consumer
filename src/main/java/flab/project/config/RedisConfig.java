@@ -1,7 +1,5 @@
 package flab.project.config;
 
-import flab.project.domain.post.model.BasePost;
-import flab.project.domain.user.model.Profile;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,12 +43,6 @@ public class RedisConfig {
     }
 
     @Bean
-    public StringRedisTemplate signUpRedisTemplate() {
-        return new StringRedisTemplate(redisConnectionFactory(0));
-    }
-
-
-    @Bean
     public RedisTemplate<Long, Long> followRedisTemplate() {
         RedisTemplate<Long, Long> template = new RedisTemplate<>();
         template.setConnectionFactory(redisConnectionFactory(1));
@@ -61,25 +53,6 @@ public class RedisConfig {
     public RedisTemplate<Long, Long> newsFeedRedisTemplate() {
         RedisTemplate<Long, Long> template = new RedisTemplate<>();
         template.setConnectionFactory(redisConnectionFactory(2));
-        return template;
-    }
-
-    // todo 해당 캐시가 피드에서만 쓰이는건 아님. 게시물 테이블 정보를 저장하는 캐시일 뿐임.
-    @Bean
-    public RedisTemplate<Long, BasePost> postRedisTemplate() {
-        RedisTemplate<Long, BasePost> template = new RedisTemplate<>();
-        template.setValueSerializer(new Jackson2JsonRedisSerializer<>(BasePost.class));
-        template.setConnectionFactory(redisConnectionFactory(2));
-
-        return template;
-    }
-
-    @Bean
-    public RedisTemplate<Long, Profile> userRedisTemplate() {
-        RedisTemplate<Long, Profile> template = new RedisTemplate<>();
-        template.setValueSerializer(new Jackson2JsonRedisSerializer<>(Profile.class));
-        template.setConnectionFactory(redisConnectionFactory(2));
-
         return template;
     }
 }

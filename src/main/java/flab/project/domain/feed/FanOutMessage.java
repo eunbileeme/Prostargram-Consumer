@@ -1,4 +1,4 @@
-package flab.project.domain.feed.model;
+package flab.project.domain.feed;
 
 import lombok.*;
 

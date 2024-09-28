@@ -1,7 +1,5 @@
-package flab.project.domain.feed.controller;
+package flab.project.domain.feed;
 
-import flab.project.domain.feed.service.NewsFeedFanOutService;
-import flab.project.domain.feed.model.FanOutMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -16,6 +14,7 @@ public class RabbitMQConsumer {
 
     @RabbitListener(queues = "${spring.rabbitmq.template.default-receive-queue}")
     public void receiveMessage(FanOutMessage fanOutMessage) {
+        log.info("### message arrived => {}", fanOutMessage);
         newsFeedFanOutService.fanOut(fanOutMessage);
 
         log.error("### message => {}", fanOutMessage);

@@ -15,16 +15,6 @@ public class NewsFeedRedisUtil {
 
     private final RedisTemplate<Long, Long> newsFeedRedisTemplate;
 
-    // todo: valueOperations.
-    public List<Long> getPostIds(Long key) {
-        ListOperations<Long, Long> listOperations = newsFeedRedisTemplate.opsForList();
-        return listOperations.range(key, 0, 10L);
-    }
-
-    public boolean exists(Long key) {
-        return newsFeedRedisTemplate.hasKey(key);
-    }
-
     public void addForMultipleUsers(List<Long> userIds, long postId) {
         newsFeedRedisTemplate.executePipelined((RedisCallback<Object>) connection -> {
             for (long userId : userIds) {
@@ -32,9 +22,5 @@ public class NewsFeedRedisUtil {
             }
             return null;
         });
-    }
-
-    public void delete(Long key) {
-        newsFeedRedisTemplate.delete(key);
     }
 }
