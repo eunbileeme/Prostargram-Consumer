@@ -7,7 +7,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.GenericToStringSerializer;
 import org.springframework.data.redis.core.RedisTemplate;
 
 @Configuration
@@ -52,7 +52,11 @@ public class RedisConfig {
     @Bean
     public RedisTemplate<Long, Long> newsFeedRedisTemplate() {
         RedisTemplate<Long, Long> template = new RedisTemplate<>();
+
+        template.setKeySerializer(new GenericToStringSerializer<>(Long.class));
+        template.setValueSerializer(new GenericToStringSerializer<>(Long.class));
         template.setConnectionFactory(redisConnectionFactory(2));
+
         return template;
     }
 }
