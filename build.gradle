@@ -33,6 +33,10 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+tasks.named('processResources') {
+    dependsOn(copyPrivate)
+}
+
 task copyPrivate(type: Copy) {
     from './submodules/Prostargram_submodule-data'
     include "*.yml"
